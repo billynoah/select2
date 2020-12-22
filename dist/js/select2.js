@@ -2047,6 +2047,7 @@ S2.define('select2/selection/search',[
       '<span class="select2-search select2-search--inline">' +
         '<input class="select2-search__field" type="search" tabindex="-1"' +
         ' autocorrect="off" autocapitalize="none"' +
+        (+this.options.get('minimumResultsForSearch') < 0 || this.options.get('minimumResultsForSearch') === Infinity ? ' disabled="disabled"' : '') +
         ' spellcheck="false" role="searchbox" aria-autocomplete="list" />' +
       '</span>'
     );
@@ -2088,8 +2089,9 @@ S2.define('select2/selection/search',[
     });
 
     container.on('enable', function () {
-      self.$search.prop('disabled', false);
-
+      if (+this.options.get('minimumResultsForSearch') >= 0 && this.options.get('minimumResultsForSearch') !== Infinity) {
+        self.$search.prop('disabled', false);
+      }
       self._transferTabIndex();
     });
 
